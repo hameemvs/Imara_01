@@ -1,0 +1,54 @@
+-- 1. Create the Database
+CREATE DATABASE PuttalamBookZone;
+
+-- 2. Use the Database
+USE PuttalamBookZone;
+
+-- 3. Create the Table
+
+CREATE TABLE Books (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    CategoryID INT NOT NULL,
+    ISBN VARCHAR(50) NOT NULL,
+    Photo VARCHAR(255),
+    Author VARCHAR(255) NOT NULL,
+    Quantity INT NOT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create the BorrowedBooks Table
+CREATE TABLE BorrowedBooks (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    BookID INT NOT NULL,
+    BorrowDate DATE NOT NULL,
+    DueDate DATE NOT NULL,
+    ReturnDate DATE,
+    BorrowStatus ENUM('borrowed', 'returned', 'lost') NOT NULL DEFAULT 'borrowed',
+    FineAmount DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    FineStatus VARCHAR(50) DEFAULT 'None',
+    PaidStatus ENUM('unpaid', 'paid') DEFAULT 'unpaid',
+    PaidDate DATETIME,
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create the Users Table
+CREATE TABLE Users (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    FullName VARCHAR(100),
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Role ENUM('admin', 'member') NOT NULL DEFAULT 'member',
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create the Categories Table
+CREATE TABLE Categories (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    CategoryName VARCHAR(50) NOT NULL UNIQUE
+);
